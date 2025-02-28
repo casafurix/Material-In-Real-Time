@@ -20,5 +20,9 @@ export const routes: Routes = [
     {
         path: 'badge',
         component: BadgeComponent
+    },
+    {
+        path: '**',
+        redirectTo: ''
     }
 ];
