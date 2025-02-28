@@ -1,0 +1,132 @@
+<div class="main-title">
+    <h1>Badge</h1>
+</div>
+<div class="main-container">
+
+    <h2>Select badge type</h2>
+
+    <mat-form-field>
+        <mat-label>
+            Badge
+        </mat-label>
+        <mat-select [formControl]="badgeFormControl">
+            @for (badgeType of badgeTypes; track badgeType.type){
+            <mat-option [value]="badgeType.type">
+                {{badgeType.type}}
+            </mat-option>
+            }
+        </mat-select>
+        @if (badgeFormControl.hasError('required')) {
+        <mat-error>You must choose a badge type to start designing</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="mt-50">
+    </div>
+
+    @if( badgeFormControl.value === badgeTypeEnum.BASIC){
+    <div class="hint-text">{{getBadgeDesc(badgeTypeEnum.BASIC)}}</div>
+    <div class="mt-20"></div>
+    <div class="preview-section">
+        <h3>Preview</h3>
+        <div class="demo-section">
+            <span [matBadge]="badgeContent" [matBadgeColor]="badgeColor">Text with a badge</span>
+            <button mat-raised-button [matBadge]="badgeContent" [matBadgeColor]="badgeColor">Button with a badge</button>
+            <mat-icon [matBadge]="badgeContent" [matBadgeColor]="badgeColor">home</mat-icon>
+        </div>
+    </div>
+    }
+    
+    @if( badgeFormControl.value === badgeTypeEnum.POSITIONED){
+    <div class="hint-text">{{getBadgeDesc(badgeTypeEnum.POSITIONED)}}</div>
+    <div class="mt-20"></div>
+    <div class="preview-section">
+        <h3>Preview</h3>
+        <div class="demo-section">
+            <button mat-raised-button 
+                [matBadge]="badgeContent" 
+                [matBadgeColor]="badgeColor" 
+                [matBadgePosition]="badgePosition">
+                Positioned Badge
+            </button>
+        </div>
+        <div class="position-options">
+            <button mat-button class="position-option" (click)="updateBadgePosition('above before')">Above Before</button>
+            <button mat-button class="position-option" (click)="updateBadgePosition('above after')">Above After</button>
+            <button mat-button class="position-option" (click)="updateBadgePosition('below before')">Below Before</button>
+            <button mat-button class="position-option" (click)="updateBadgePosition('below after')">Below After</button>
+        </div>
+    </div>
+    }
+    
+    @if( badgeFormControl.value === badgeTypeEnum.SIZED){
+    <div class="hint-text">{{getBadgeDesc(badgeTypeEnum.SIZED)}}</div>
+    <div class="mt-20"></div>
+    <div class="preview-section">
+        <h3>Preview</h3>
+        <div class="demo-section">
+            <button mat-raised-button 
+                [matBadge]="badgeContent" 
+                [matBadgeColor]="badgeColor" 
+                [matBadgeSize]="badgeSize">
+                Sized Badge
+            </button>
+        </div>
+        <div class="size-options">
+            <button mat-button class="size-option" (click)="updateBadgeSize('small')">Small</button>
+            <button mat-button class="size-option" (click)="updateBadgeSize('medium')">Medium</button>
+            <button mat-button class="size-option" (click)="updateBadgeSize('large')">Large</button>
+        </div>
+    </div>
+    }
+    
+    @if( badgeFormControl.value === badgeTypeEnum.OVERLAPPING){
+    <div class="hint-text">{{getBadgeDesc(badgeTypeEnum.OVERLAPPING)}}</div>
+    <div class="mt-20"></div>
+    <div class="preview-section">
+        <h3>Preview</h3>
+        <div class="demo-section">
+            <div class="icon-container">
+                <mat-icon [matBadge]="badgeContent" [matBadgeColor]="badgeColor" matBadgeOverlap="true">shopping_cart</mat-icon>
+            </div>
+            <div class="icon-container">
+                <mat-icon [matBadge]="badgeContent" [matBadgeColor]="badgeColor" matBadgeOverlap="true">notifications</mat-icon>
+            </div>
+            <div class="icon-container">
+                <mat-icon [matBadge]="badgeContent" [matBadgeColor]="badgeColor" matBadgeOverlap="true">mail</mat-icon>
+            </div>
+        </div>
+    </div>
+    }
+    
+    @if( badgeFormControl.value === badgeTypeEnum.HIDDEN){
+    <div class="hint-text">{{getBadgeDesc(badgeTypeEnum.HIDDEN)}}</div>
+    <div class="mt-20"></div>
+    <div class="preview-section">
+        <h3>Preview</h3>
+        <div class="demo-section">
+            <button mat-raised-button 
+                [matBadge]="badgeContent" 
+                [matBadgeColor]="badgeColor" 
+                [matBadgeHidden]="badgeHidden">
+                Badge Visibility
+            </button>
+            <div class="toggle-container">
+                <button mat-button (click)="toggleBadgeVisibility()">
+                    {{badgeHidden ? 'Show' : 'Hide'}} Badge
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+    
+    @if( badgeFormControl.value !== ""){
+    <div class="design-pad mt-50">
+        <ngs-code-editor [readOnly]="true" [codeModel]="badgeModelFixed"></ngs-code-editor>
+    </div>
+    <div class="design-pad">
+        <ngs-code-editor (codeModelChanged)="onCodeModelChange($event)" [theme]="theme" [codeModel]="badgeModel"
+            [options]="options" (valueChanged)="onCodeChanged($event)"></ngs-code-editor>
+    </div>
+    }
+</div>

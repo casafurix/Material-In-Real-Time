@@ -1,23 +1,24 @@
 import { Routes } from '@angular/router';
-import { ButtonComponent } from './button/button.component';
 import { HomeScreenComponent } from './home-screen/home-screen.component';
+import { ButtonComponent } from './button/button.component';
+import { AutocompleteComponent } from './autocomplete/autocomplete.component';
+import { BadgeComponent } from './badge/badge.component';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-    },
-    {
-        path: 'home',
-        component: HomeScreenComponent,
+        component: HomeScreenComponent
     },
     {
         path: 'button',
         component: ButtonComponent
     },
     {
-        path: '**',
-        redirectTo: 'home'
+        path: 'autocomplete',
+        component: AutocompleteComponent
+    },
+    {
+        path: 'badge',
+        component: BadgeComponent
     }
 ];

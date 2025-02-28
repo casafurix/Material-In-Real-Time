@@ -1,0 +1,111 @@
+<div class="main-title">
+    <h1>Autocomplete</h1>
+</div>
+<div class="main-container">
+
+    <h2>Select autocomplete type</h2>
+
+    <mat-form-field>
+        <mat-label>
+            Autocomplete
+        </mat-label>
+        <mat-select [formControl]="autocompleteFormControl">
+            @for (autocompleteType of autocompleteTypes; track autocompleteType.type){
+            <mat-option [value]="autocompleteType.type">
+                {{autocompleteType.type}}
+            </mat-option>
+            }
+        </mat-select>
+        @if (autocompleteFormControl.hasError('required')) {
+        <mat-error>You must choose an autocomplete type to start designing</mat-error>
+        }
+    </mat-form-field>
+
+    <div class="mt-50">
+    </div>
+
+    @if( autocompleteFormControl.value === autocompleteTypeEnum.BASIC){
+    <div class="hint-text">{{getAutocompleteDesc(autocompleteTypeEnum.BASIC)}}</div>
+    <div class="mt-20"></div>
+    <div class="preview-section">
+      <h3>Preview</h3>
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Fruit</mat-label>
+          <input type="text"
+                placeholder="Pick one"
+                aria-label="Fruit"
+                matInput
+                [formControl]="fruitControl"
+                [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    }
+    
+    @if( autocompleteFormControl.value === autocompleteTypeEnum.OPTION_GROUPS){
+    <div class="hint-text">{{getAutocompleteDesc(autocompleteTypeEnum.OPTION_GROUPS)}}</div>
+    <div class="mt-20"></div>
+    <div class="preview-section">
+      <h3>Preview</h3>
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Pokemon</mat-label>
+          <input type="text"
+                placeholder="Pick one"
+                aria-label="Pokemon"
+                matInput
+                [formControl]="pokemonControl"
+                [matAutocomplete]="autoGroup">
+          <mat-autocomplete #autoGroup="matAutocomplete">
+            <mat-optgroup *ngFor="let group of pokemonGroupOptions | async" [label]="group.letter">
+              <mat-option *ngFor="let pokemon of group.names" [value]="pokemon">
+                {{pokemon}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    }
+    
+    @if( autocompleteFormControl.value === autocompleteTypeEnum.CUSTOM_FILTER){
+    <div class="hint-text">{{getAutocompleteDesc(autocompleteTypeEnum.CUSTOM_FILTER)}}</div>
+    <div class="mt-20"></div>
+    <div class="preview-section">
+      <h3>Preview</h3>
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>State</mat-label>
+          <input type="text"
+                placeholder="Pick one"
+                aria-label="State"
+                matInput
+                [formControl]="stateControl"
+                [matAutocomplete]="autoState">
+          <mat-autocomplete #autoState="matAutocomplete">
+            <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
+              <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
+              <span>{{state.name}}</span> | <small>Population: {{state.population}}</small>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    }
+    
+    @if( autocompleteFormControl.value !== ""){
+    <div class="design-pad mt-50">
+        <ngs-code-editor [readOnly]="true" [codeModel]="autocompleteModelFixed"></ngs-code-editor>
+    </div>
+    <div class="design-pad">
+        <ngs-code-editor (codeModelChanged)="onCodeModelChange($event)" [theme]="theme" [codeModel]="autocompleteModel"
+            [options]="options" (valueChanged)="onCodeChanged($event)"></ngs-code-editor>
+    </div>
+    }
+</div>
